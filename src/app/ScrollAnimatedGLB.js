@@ -1,4 +1,5 @@
 'use client'
+
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
@@ -16,7 +17,7 @@ export default function ScrollAnimatedGLB() {
   const textRef = useRef()
   const [showText, setShowText] = useState(false)
 
-  // Track scroll offset with a custom component
+  // Track scroll offset
   function ScrollListener() {
     const scroll = useScroll()
     useFrame(() => {
@@ -26,10 +27,9 @@ export default function ScrollAnimatedGLB() {
     return null
   }
 
-  // Animate text in/out based on showText state
+  // Animate text in/out
   useEffect(() => {
     if (!textRef.current) return
-
     if (showText) {
       gsap.to(textRef.current, {
         opacity: 1,
@@ -41,8 +41,8 @@ export default function ScrollAnimatedGLB() {
     } else {
       gsap.to(textRef.current, {
         opacity: 0,
-        y: 0,
-        duration: 0.1,
+        y: 50,
+        duration: 0.5,
         ease: 'power2.in',
         pointerEvents: 'none',
       })
@@ -51,8 +51,8 @@ export default function ScrollAnimatedGLB() {
 
   return (
     <>
-      <Canvas shadows camera={{ position: [0, 0, 0] }}>
-        <ambientLight intensity={0.8} />
+      <Canvas shadows camera={{ position: [0, 0, 15], fov: 50 }}>
+        <ambientLight intensity={0.7} />
         <directionalLight
           position={[10, 10, 10]}
           intensity={1}
@@ -62,9 +62,9 @@ export default function ScrollAnimatedGLB() {
         />
         <Sky scale={100} sunPosition={[40, 0.8, 20]} />
         <Suspense fallback={null}>
-          <ScrollControls pages={20}>
+          <ScrollControls pages={4} damping={0.1}>
             <ScrollListener />
-            <LittlestTokyo scale={2.5} position={[2, 2.5, 5]} />
+            <LittlestTokyo scale={0.01} position={[0, 0.2, 0]} />
             <Environment preset="sunset" />
           </ScrollControls>
         </Suspense>
@@ -74,10 +74,10 @@ export default function ScrollAnimatedGLB() {
         ref={textRef}
         style={{
           position: 'fixed',
-          top: 150,
+          top: '20%',
           left: '50%',
-          transform: 'translateX(-50%) translateY(50px)', // start lower
-          color: 'black',
+          transform: 'translateX(-50%) translateY(50px)',
+          color: 'white',
           fontSize: '3rem',
           fontWeight: 'bold',
           opacity: 0,
@@ -85,9 +85,8 @@ export default function ScrollAnimatedGLB() {
           zIndex: 20,
           userSelect: 'none',
           whiteSpace: 'nowrap',
+          textShadow: '0 0 15px rgba(0,0,0,0.8)',
           fontFamily: 'sans-serif',
-          textShadow: '0 0 10px rgba(0,0,0,0.7)',
-          transition: 'transform 0.3s ease',
         }}
       >
         KODUYATHRA - 2025
@@ -98,12 +97,14 @@ export default function ScrollAnimatedGLB() {
 
 function LittlestTokyo(props) {
   const scroll = useScroll()
-  const { scene, nodes, animations } = useGLTF('/models/need_some_space.glb')
+  const { scene, nodes, animations } = useGLTF('/models/LittlestTokyo-transformed.glb')
   const { actions } = useAnimations(animations, scene)
 
   useLayoutEffect(() => {
     Object.values(nodes).forEach((node) => {
-      node.receiveShadow = node.castShadow = true
+      if (node.isMesh) {
+        node.receiveShadow = node.castShadow = true
+      }
     })
   }, [nodes])
 
@@ -132,27 +133,21 @@ function LittlestTokyo(props) {
 
     const offset = scroll.offset
 
+    // Smoothly animate GLB animation based on scroll
     action.time = THREE.MathUtils.damp(
       action.time,
       (action.getClip().duration / 2) * offset,
-      100,
+      5,
       delta
     )
 
+    // Camera zoom based on scroll
     const zoomStart = 15
     const zoomEnd = 8
     const zoom = THREE.MathUtils.lerp(zoomStart, zoomEnd, offset)
-
     state.camera.position.set(0, 0, zoom)
     state.camera.lookAt(0, 0, 0)
   })
 
-  return (
-    <primitive
-      object={scene}
-      {...props}
-      rotation={[0, 11, 4.8]}
-      position={[0, 0.2, 0]}
-    />
-  )
+  return <primitive object={scene} {...props} rotation={[0, Math.PI * 1.1, 4.8]} />
 }

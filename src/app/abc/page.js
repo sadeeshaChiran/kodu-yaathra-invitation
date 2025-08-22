@@ -1,4 +1,5 @@
 import Invitation2 from "../Invitation2";
+import KoduYathra from "../KoduYathra";
 import ScrollControlledAnimation from "../Scroll3DSceneGLB";
 
 
@@ -8,7 +9,7 @@ export default function Home() {
      <div className="root">
 
       {/* <Invitation /> */}
-      <Invitation2 />
+      <KoduYathra />
 
       
     </div>
