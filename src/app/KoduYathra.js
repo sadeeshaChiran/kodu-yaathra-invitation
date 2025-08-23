@@ -11,6 +11,7 @@ import gsap from 'gsap'
 import "@fontsource/ubuntu";
 import "@fontsource/ubuntu/400.css";
 import "@fontsource/ubuntu/700.css";
+import { FaCalendarAlt, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
 
 // --- Background easing ---
 function bgEasing(t) {
@@ -28,7 +29,7 @@ function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'
     }, [text])
 
     return (
-        <span style={{ display: 'inline-block', fontFamily, letterSpacing: '0em', marginTop: marginTop  }}>
+        <span style={{ display: 'inline-block', fontFamily, letterSpacing: '0em', marginTop: marginTop }}>
             {letters.map((letter, index) => (
                 <Letter
                     key={index}
@@ -147,6 +148,51 @@ function PlaneScene({ startOffset = 0.25, endOffset = 0.75 }) {
     return <primitive ref={planeRef} object={scene} position={[-5, 2, -3]} />
 }
 
+
+function EventDetails() {
+  const details = [
+    {
+      icon: <FaCalendarAlt className="text-blue-500 w-5 h-5 mr-2" />,
+      label: "DATE",
+      value: "26th AUGUST 2025",
+    },
+    {
+      icon: <FaClock className="text-green-500 w-5 h-5 mr-2" />,
+      label: "TIME",
+      value: "05:00 PM",
+    },
+    {
+      icon: <FaMapMarkerAlt className="text-red-500 w-5 h-5 mr-2" />,
+      label: "VENUE",
+      value: "PROF.J.W.DAYANANDA SOMASUNDARA AUDITORIUM",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      {details.map((item, index) => (
+        <div
+          key={index}
+          className="flex items-center bg-white shadow-md rounded-lg px-4 py-3 w-full max-w-md"
+        >
+          {item.icon}
+          <div>
+            <AnimatedText
+              fontFamily="'Ubuntu', sans-serif"
+              text={`${item.label}: ${item.value}`}
+              fontSize="1.2rem"
+              topMargin="0rem"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+
+
+
 // --- Logo ---
 function AnimatedLogo({ src, width, topMargin = '0rem' }) {
     const logoRef = useRef()
@@ -196,7 +242,13 @@ export default function KoduYathra() {
                             {/* Page 2 */}
                             <section style={{ height: '100vh', width: '100vw', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', fontSize: '3.5rem', fontWeight: 'bold', fontFamily: "'Ubuntu', sans-serif" }}>
                                 <ScrollSinhala text="Get Ready" startOffset={0.5} endOffset={1.0} fontFamily="'Ubuntu', sans-serif" marginTop='6rem' />
-                                <div style={{ marginBottom: '0rem', textAlign: 'center' }}>
+                                {/* <div class="wrapper">
+                                    <div class="container">
+                                        <div class="fold"></div>
+                                    </div>
+                                </div> */}
+
+                                {/* <div style={{ marginBottom: '0rem', textAlign: 'center' }}>
 
                                     <AnimatedText
                                         fontFamily="'Ubuntu', sans-serif"
@@ -205,20 +257,21 @@ export default function KoduYathra() {
                                         topMargin="2rem"
                                     />
                                     <AnimatedText
-                                    fontFamily="'Ubuntu', sans-serif"
+                                        fontFamily="'Ubuntu', sans-serif"
                                         text="Time: 05:00 PM"
                                         fontSize="1.4rem"
                                         topMargin="1rem"
                                     />
                                     <AnimatedText
-                                    fontFamily="'Ubuntu', sans-serif"
+                                        fontFamily="'Ubuntu', sans-serif"
                                         text="VENUE: PROF.J.W.DAYANANDA SOMASUNDARA AUDITORIUN"
                                         fontSize="1.2rem"
                                         topMargin="1rem"
                                     />
-                                </div>
+                                </div> */}
+                                <EventDetails />
 
-                                <div className="footer-text-container" style={{ marginBottom: '20px', textAlign: 'center', position: 'relative', marginLeft: '5px', marginRight: '5px' }}>
+                                <div className="footer-text-container2" style={{ marginBottom: '20px', textAlign: 'center', position: 'relative', marginLeft: '5px', marginRight: '5px' }}>
                                     <img src="/foclogo.png" className="footer-logo front-logo" />
                                     <p className="footer-text">
                                         {"Students' Union Faculty of Computing Sabaragamuwa University of Sri Lanka"}

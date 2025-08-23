@@ -34,7 +34,7 @@ function AnimatedText({ text, fontSize = '1rem', fontFamily = "'Ubuntu', sans-se
 
 function AnimatedSinhalaText({
     text,
-    fontFamily = "'0KDROSE', sans-serif",
+    fontFamily = "'TharuDigitalNikini', sans-serif",
     fontWeight = "normal",
     topMargin = "0rem"
 }) {
@@ -190,8 +190,8 @@ export default function GalleryCarousel() {
                     <AnimatedLogo src="/logo1.png" width={180} topMargin="3rem" />
                     <AnimatedText text="2025" fontSize="0.9rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
                     <AnimatedSinhalaText
-                        text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය'''`}
-                        fontFamily="'0KDROSE', sans-serif"
+                        text={`;dreldu;ska wdf,dalh fidhd hk fldavqldrhkaf.a\n fid÷re ixpdrh'''`}
+                        fontFamily="'TharuDigitalNikini', sans-serif"
                         fontWeight="700"
                         topMargin="1.7rem"
                     />
@@ -226,8 +226,8 @@ export default function GalleryCarousel() {
                     style={{ fontFamily: "'Ubuntu', sans-serif" }}
                 >
                     <p className="footer-line-1" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
-                        BE A PART OF THIS VIBRANT EVENING AND WITNESS THE BRILLIANCE,
-                        CREATIVITY, AND TALENTS COME ALIVE ON STAGE.
+                        BE A PART OF THIS VIBRANT EVENING AND <br/> WITNESS THE BRILLIANCE,
+                        CREATIVITY, <br/> AND TALENTS COME ALIVE ON STAGE.
 {/* <br></br>
 <br></br>
 
