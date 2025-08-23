@@ -1,6 +1,11 @@
 @font-face {
   font-family: 'Sinha Nimsara';
-  src: url('/fonts/SinhaNimsara-Regular.ttf') format('truetype');
+  src: url('../../public/fonts/SinhaNimsara-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+}
+
+
+.front-text {
+  font-family: 'Ubuntu', sans-serif;
 }

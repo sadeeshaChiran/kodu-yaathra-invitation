@@ -7,6 +7,11 @@ import * as THREE from 'three'
 import GraphemeSplitter from 'grapheme-splitter'
 import './Invitation.css'
 import gsap from 'gsap'
+// in src/app/layout.js or _app.js
+import "@fontsource/ubuntu"; // Default weight
+import "@fontsource/ubuntu/400.css"; // Regular
+import "@fontsource/ubuntu/700.css"; // Bold
+
 
 // --- Background easing ---
 function bgEasing(t) {
@@ -14,6 +19,7 @@ function bgEasing(t) {
 }
 
 // --- Sinhala Letter Animation ---
+// --- Sinhala / English Letter Animation with GSAP ---
 function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'Sinha Nimsara', sans-serif" }) {
     const scroll = useScroll()
     const [letters, setLetters] = useState([])
@@ -23,35 +29,122 @@ function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'
         setLetters(splitter.splitGraphemes(text))
     }, [text])
 
-    return (
-        <span style={{ display: 'inline-block', fontFamily }}>
-            {letters.map((letter, index) => (
-                <Letter key={index} letter={letter} index={index} scroll={scroll} startOffset={startOffset} endOffset={endOffset} />
-            ))}
-        </span>
-    )
-}
-
-function Letter({ letter, index, scroll, startOffset, endOffset }) {
-    const [visible, setVisible] = useState(false)
-
-    useFrame(() => {
-        const t = scroll.offset
-        const progress = Math.min(Math.max((t - startOffset) / (endOffset - startOffset), 0), 1)
-        if (progress * 10 > index) setVisible(true)
-    })
 
     return (
         <span
             style={{
                 display: 'inline-block',
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'scale(1)' : 'scale(0.5)',
-                transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
-                marginRight: '0.1em',
+                fontFamily,
+                letterSpacing: '0em',   // 👈 add this
+            }}
+        >
+            {letters.map((letter, index) => (
+                <Letter
+                    key={index}
+                    letter={letter}
+                    index={index}
+                    scroll={scroll}
+                    startOffset={startOffset}
+                    endOffset={endOffset}
+                />
+            ))}
+        </span>
+    )
+
+
+}
+
+function Letter({ letter, index, scroll, startOffset, endOffset }) {
+    const spanRef = useRef(null)
+    const [visible, setVisible] = useState(false)
+    const visibleRef = useRef(false)
+
+    useEffect(() => {
+        if (!spanRef.current) return
+        gsap.set(spanRef.current, { opacity: 0, y: 30, scale: 0.9 })
+    }, [])
+
+    useFrame(() => {
+        const t = scroll.offset
+        const progress = Math.min(Math.max((t - startOffset) / (endOffset - startOffset), 0), 1)
+        const shouldBeVisible = progress * 10 > index
+
+        if (shouldBeVisible !== visibleRef.current) {
+            visibleRef.current = shouldBeVisible
+            setVisible(shouldBeVisible)
+
+            if (shouldBeVisible) {
+                gsap.to(spanRef.current, {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    delay: index * 0.05,
+                })
+            } else {
+                gsap.to(spanRef.current, {
+                    opacity: 0,
+                    y: 30,
+                    scale: 0.8,
+                    duration: 0.4,
+                    ease: 'power2.in',
+                })
+            }
+        }
+    })
+
+    // 👉 handle spaces differently
+    if (letter === " ") {
+        return <span style={{ display: "inline-block", width: "0.4em" }} />  // adjust width for word gap
+    }
+
+    return (
+        <span
+            ref={spanRef}
+            style={{
+                display: 'inline-block',
+
             }}
         >
             {letter}
+        </span>
+    )
+}
+
+function AnimatedSinhalaText({ text }) {
+    const textRef = useRef(null)
+
+    useEffect(() => {
+        if (!textRef.current) return
+
+        // animate from bottom with fade
+        gsap.fromTo(
+            textRef.current,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'power2.out',
+                delay: 0.5, // slight delay after logo
+            }
+        )
+    }, [])
+
+    return (
+        <span
+            ref={textRef}
+            style={{
+                fontSize: '0.9rem',
+                fontWeight: 'normal',
+                textAlign: 'center',
+                maxWidth: '80%',
+                display: 'inline-block',
+                fontFamily: "'Sinha Nimsara', sans-serif", // Sinhala font
+            }}
+        >
+            {text}
         </span>
     )
 }
@@ -121,12 +214,16 @@ export default function KoduYathra() {
             <Canvas shadows camera={{ position: [0, 2, 12], fov: 50 }}>
                 <ambientLight intensity={0.7} />
                 <directionalLight position={[10, 10, 10]} intensity={1} />
+                {/* <Suspense fallback={null}>
+                    <SpinningModel scale={2.5} />
+                </Suspense> */}
                 <Suspense fallback={null}>
                     <ScrollControls pages={2} damping={0.1}>
                         <Scene />
                         <Environment preset="sunset" />
 
                         <Scroll html>
+                            {/* Page 1 - Sinhala */}
                             {/* Page 1 - Sinhala */}
                             <section
                                 className="sinhala-font"
@@ -140,9 +237,26 @@ export default function KoduYathra() {
                                     fontSize: '3.5rem',
                                     fontWeight: 'bold',
                                     flexDirection: 'column',
+                                    gap: '1.5rem',
                                 }}
                             >
                                 <AnimatedLogo src="/logo1.png" width={300} />
+
+                                {/* Animated Sinhala text */}
+                                <AnimatedSinhalaText text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය" />
+
+                                {/* Scroll GIF */}
+                                <img
+                                    src="/scroll.gif"
+                                    alt="Scroll down"
+                                    style={{
+                                        position: 'block',
+                                        bottom: '2rem',
+                                        width: '50px',      // adjust size
+                                        height: '50px',
+                                        animation: 'bounce 1.5s infinite', // optional simple bounce
+                                    }}
+                                />
                             </section>
 
 
@@ -158,15 +272,44 @@ export default function KoduYathra() {
                                     alignItems: 'center',
                                     fontSize: '3.5rem',
                                     fontWeight: 'bold',
-                                    fontFamily: "Arial, sans-serif",
+                                    fontFamily: "'Ubuntu', sans-serif",   // 👈 change here
                                 }}
                             >
-                                <ScrollSinhala text="Get Ready" startOffset={0.5} endOffset={1.0} fontFamily="Arial, sans-serif" />
+                                <ScrollSinhala
+                                    text="Get Ready"
+                                    startOffset={0.5}
+                                    endOffset={1.0}
+                                    fontFamily="'Ubuntu', sans-serif"    // 👈 pass to component too
+                                />
                             </section>
+
+
+
+
                         </Scroll>
                     </ScrollControls>
                 </Suspense>
             </Canvas>
         </div>
     )
+}
+
+function SpinningModel(props) {
+    const { scene } = useGLTF('/models/sky_pano_-_milkyway.glb')
+
+    // Make all meshes transparent
+    scene.traverse((child) => {
+        if (child.isMesh) {
+            child.material.transparent = true
+            child.material.opacity = 0.2  // adjust for desired transparency
+            child.material.depthWrite = false // optional: prevent z-fighting
+        }
+    })
+
+    useFrame(() => {
+        scene.rotation.y += 0.002
+        scene.rotation.x = 0.25
+    })
+
+    return <primitive object={scene} {...props} />
 }

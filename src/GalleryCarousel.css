@@ -1,0 +1,76 @@
+.gallery {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background canvas */
+.background-canvas {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+}
+
+/* Cards + Footer container */
+.gallery-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  z-index: 1; /* above canvas */
+}
+
+/* Cards area - 8/12 */
+.cards {
+  flex: 8; /* 8/12 of height */
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.cards li {
+  flex: 0 0 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cards li img {
+  width: auto;
+  height: 80%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* Footer area - 4/12 */
+.gallery-footer {
+  flex: 4; /* 4/12 of height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  padding: 1rem;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.footer-line-1 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.footer-line-2 {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.85;
+}
