@@ -193,7 +193,7 @@ export default function GalleryCarousel() {
                         text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය'''`}
                         fontFamily="'0KDROSE', sans-serif"
                         fontWeight="700"
-                        topMargin="1.8rem"
+                        topMargin="1.7rem"
                     />
 
                 </div>
