@@ -190,11 +190,12 @@ export default function GalleryCarousel() {
                     <AnimatedLogo src="/logo1.png" width={180} topMargin="3rem" />
                     <AnimatedText text="2025" fontSize="0.9rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
                     <AnimatedSinhalaText
-                        text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය`}
+                        text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය'''`}
                         fontFamily="'0KDROSE', sans-serif"
                         fontWeight="700"
                         topMargin="1.8rem"
                     />
+
                 </div>
                 {/* Cards area - 8/12 */}
 
@@ -226,7 +227,12 @@ export default function GalleryCarousel() {
                 >
                     <p className="footer-line-1" style={{ fontSize: '0.7rem', fontWeight: '600' }}>
                         BE A PART OF THIS VIBRANT EVENING AND WITNESS THE BRILLIANCE,
-                        CREATIVITY, AND TALENTS COME ALIVE ON STAGE AND TALENTS COME ALIVE ON STAGE
+                        CREATIVITY, AND TALENTS COME ALIVE ON STAGE.
+{/* <br></br>
+<br></br>
+
+                        Be a part of this vibrant evening and witness the brilliance, creativity
+                        and talents come alive on stage. */}
                     </p>
                     {/* <p className="footer-line-1" style={{ fontSize: '0.7rem', fontWeight: '600' }}>
                         AND
