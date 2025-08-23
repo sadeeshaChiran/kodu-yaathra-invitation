@@ -62,7 +62,7 @@ function AnimatedSinhalaText({
         <div
             ref={textRef}
             style={{
-                fontSize: "clamp(0.9rem, 3vw, 1.0rem)",
+                fontSize: "clamp(0.8rem, 3vw, 1.0rem)",
                 fontFamily,
                 fontWeight,
                 textAlign: "center",
@@ -193,7 +193,7 @@ export default function GalleryCarousel() {
                         text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය`}
                         fontFamily="'0KDROSE', sans-serif"
                         fontWeight="700"
-                        topMargin="1rem"
+                        topMargin="1.8rem"
                     />
                 </div>
                 {/* Cards area - 8/12 */}
