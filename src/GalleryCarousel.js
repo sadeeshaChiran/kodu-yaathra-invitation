@@ -225,7 +225,7 @@ export default function GalleryCarousel() {
                     className="gallery-footer"
                     style={{ fontFamily: "'Ubuntu', sans-serif" }}
                 >
-                    <p className="footer-line-1" style={{ fontSize: '0.7rem', fontWeight: '600' }}>
+                    <p className="footer-line-1" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
                         BE A PART OF THIS VIBRANT EVENING AND WITNESS THE BRILLIANCE,
                         CREATIVITY, AND TALENTS COME ALIVE ON STAGE.
 {/* <br></br>
