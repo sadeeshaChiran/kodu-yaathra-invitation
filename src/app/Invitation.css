@@ -5,6 +5,14 @@
     font-weight: normal;
     font-style: normal;
   }
+
+  @font-face {
+    font-family: '0KDROSE';
+    src: url('../../public/fonts/0KDROSE\ Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
   
   .sinhala-font {
     font-family: 'Sinha Nimsara', sans-serif;

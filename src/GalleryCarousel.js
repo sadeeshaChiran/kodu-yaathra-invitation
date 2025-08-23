@@ -60,15 +60,23 @@ export default function GalleryCarousel() {
 
 
                 {/* Footer area - 4/12 */}
-                <div className="gallery-footer">
+                <div
+                    className="gallery-footer"
+                    style={{ fontFamily: "'Ubuntu', sans-serif" }}
+                >
                     <p className="footer-line-1">
                         BE A PART OF THIS VIBRANT EVENING AND WITNESS THE BRILLIANCE,
                         CREATIVITY, AND TALENTS COME ALIVE ON STAGE
                     </p>
-                    <p className="footer-line-2">
-                        {"Students' Union - Faculty of Computing, Sabaragamuwa University of Sri Lanka"}
-                    </p>
+                    <div className="footer-text-container">
+                        <img src="/foclogo.png" className="footer-logo front-logo" />
+                        <p className="footer-text">
+                            {"Students' Union - Faculty of Computing, Sabaragamuwa University of Sri Lanka"}
+                        </p>
+                        <img src="/susllog.png" className="footer-logo back-logo" />
+                    </div>
                 </div>
+
             </div>
         </div>
 

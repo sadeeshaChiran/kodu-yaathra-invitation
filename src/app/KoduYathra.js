@@ -111,7 +111,7 @@ function Letter({ letter, index, scroll, startOffset, endOffset }) {
         </span>
     )
 }
-function AnimatedSinhalaText({ text, fontFamily = "'Sinha Nimsara', sans-serif", fontWeight = 'normal' }) {
+function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontWeight = 'normal' }) {
     const textRef = useRef(null)
     const [letters, setLetters] = useState([])
 
@@ -201,13 +201,13 @@ function Scene() {
 }
 
 
-function AnimatedLogo({ src, width, topMargin = '5rem' }) {
+function AnimatedLogo({ src, width, topMargin = '0rem' }) {
     const logoRef = useRef()
 
     useEffect(() => {
         gsap.fromTo(
             logoRef.current,
-            { scale: 0, y: 50, opacity: 0 },
+            { scale: 0, y: 0, opacity: 0 },
             {
                 scale: 1,
                 y: 0,
@@ -223,12 +223,39 @@ function AnimatedLogo({ src, width, topMargin = '5rem' }) {
             style={{
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: topMargin, // space from top
+                marginTop: topMargin,
             }}
         >
             <img ref={logoRef} src={src} width={width} alt="Logo" />
         </div>
     )
+}
+
+function AnimatedText({ text, fontSize = '1rem', fontFamily = "'Ubuntu', sans-serif", fontWeight = '700', topMargin = '0rem' }) {
+    const textRef = useRef(null);
+
+    useEffect(() => {
+        if (!textRef.current) return;
+        gsap.fromTo(
+            textRef.current,
+            { opacity: 0, y: 20, scale: 0.8 },
+            { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' }
+        );
+    }, []);
+
+    return (
+        <div
+            ref={textRef}
+            style={{
+                fontSize,
+                fontFamily,
+                fontWeight,
+                marginTop: topMargin, // keep it 0
+            }}
+        >
+            {text}
+        </div>
+    );
 }
 
 // --- Main Component ---
@@ -256,26 +283,37 @@ export default function KoduYathra() {
                                     color: 'white',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    justifyContent: 'space-between', // logo top, text center, scroll bottom
+                                    justifyContent: 'space-between',
                                     alignItems: 'center',
                                     fontWeight: 'bold',
                                     paddingTop: '2rem',
-                                    paddingBottom: '2rem',
+                                    paddingBottom: '0rem',
                                 }}
                             >
-                                {/* Logo at top */}
-                                <AnimatedLogo src="/logo1.png" width={300} />
+                                {/* Logo */}
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    {/* Logo */}
+                                    <AnimatedLogo src="/logo1.png" width={300} topMargin="0rem" />
 
-                                {/* Center animated Sinhala text */}
+                                    {/* 2024 directly under logo */}
+                                    <AnimatedText
+                                        text="2024"
+                                        fontSize="2rem"
+                                        fontFamily="'Ubuntu', sans-serif"
+                                        fontWeight="700"
+                                        topMargin="1rem" // no gap
+                                    />
+                                </div>
 
+                                {/* Sinhala text */}
                                 <AnimatedSinhalaText
                                     text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය"
                                     fontSize="1.2rem"
-                                    fontFamily="'Sinha Nimsara', sans-serif"
+                                    fontFamily="'0KDROSE', sans-serif"
                                     fontWeight="700"
                                 />
 
-                                {/* Scroll icon at bottom */}
+                                {/* Scroll icon */}
                                 <img
                                     src="/scroll.svg"
                                     alt="Scroll down"
@@ -286,6 +324,7 @@ export default function KoduYathra() {
                                     }}
                                 />
                             </section>
+
 
 
 

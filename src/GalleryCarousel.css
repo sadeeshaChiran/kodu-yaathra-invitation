@@ -5,6 +5,7 @@
   overflow: hidden;
 }
 
+
 /* Background canvas */
 .background-canvas {
   position: absolute !important;
@@ -94,4 +95,39 @@
   font-size: 1rem;
   font-weight: 400;
   opacity: 0.85;
+}
+
+
+.gallery-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.footer-text-container {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem; 
+  margin-top: 10px;
+}
+
+.footer-text {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.footer-logo {
+  width: 30px; /* very small logo */
+  height: 30px;
+  object-fit: contain;
+}
+
+.front-logo {
+  transform: rotateY(0deg);
+}
+
+.back-logo {
+  transform: rotateY(180deg); /* flip if needed */
 }
