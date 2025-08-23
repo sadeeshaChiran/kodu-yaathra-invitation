@@ -6,8 +6,9 @@ import './GalleryCarousel.css';
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import GraphemeSplitter from "grapheme-splitter";
+import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 
 // --- Logo ---
@@ -105,42 +106,70 @@ export default function GalleryCarousel() {
         "/cards/card3.jpg",
     ];
 
+
+
+
     useEffect(() => {
         const sections = gsap.utils.toArray(".cards li");
-
-        // Horizontal scroll animation
+        const total = sections.length;
+      
+        // Horizontal scroll trigger
         gsap.to(sections, {
-            xPercent: -100 * (sections.length - 1),
-            ease: "none",
-            scrollTrigger: {
-                trigger: galleryRef.current,
-                pin: true,
-                scrub: 1,
-                end: () => "+=" + window.innerWidth * (sections.length - 1),
-                onUpdate: (self) => {
-                    const progress = self.progress;
-                    const index = Math.round(progress * (sections.length - 1));
-                    setActiveIndex(index);
-                }
+          xPercent: -100 * (total - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: galleryRef.current,
+            pin: true,
+            scrub: 1,
+            end: () => "+=" + window.innerWidth * (total - 1),
+            onUpdate: (self) => {
+              const index = Math.round(self.progress * (total - 1));
+              setActiveIndex(index);
             }
+          }
         });
-
-        // Footer fade-in at last card
+      
+        // Footer fade-in
         gsap.fromTo(
-            footerRef.current,
-            { opacity: 0, y: 50 },
-            {
-                opacity: 1,
-                y: 0,
-                scrollTrigger: {
-                    trigger: galleryRef.current,
-                    start: () => `top top+=${window.innerWidth * (sections.length - 1)}`,
-                    end: () => `+=200`,
-                    scrub: true,
-                }
+          footerRef.current,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            scrollTrigger: {
+              trigger: galleryRef.current,
+              start: () => `top top+=${window.innerWidth * (total - 1)}`,
+              end: () => `+=200`,
+              scrub: true,
             }
+          }
         );
-    }, []);
+      
+        // --- AUTO CARD SLIDE ---
+        let current = 0;
+        const delay = 3; // seconds between slides
+      
+        const autoSlide = () => {
+          current = (current + 1) % total;
+          setActiveIndex(current);
+      
+          gsap.to(sections, {
+            xPercent: -100 * current,
+            duration: 1,
+            ease: "power2.inOut"
+          });
+      
+          // schedule next slide
+          setTimeout(autoSlide, delay * 1000);
+        };
+      
+        // start after 2s
+        const timer = setTimeout(autoSlide, 2000);
+      
+        return () => clearTimeout(timer);
+      }, []);
+      
+    
 
     return (
         <div className="gallery" ref={galleryRef}>
