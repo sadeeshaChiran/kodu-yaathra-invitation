@@ -3,6 +3,7 @@ import KoduYathra from "../KoduYathra"
 import GalleryCarousel from "@/GalleryCarousel"
 import TextEffect from "../TextEffect.js"
 import ScrollHint from "../ScrollHint"
+import './page.css'
 
 export default function Home() {
   const sections = [

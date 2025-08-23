@@ -12,9 +12,9 @@ export default function GalleryCarousel() {
     const galleryRef = useRef(null);
 
     const galleryImages = [
-        "/cards/card1.jpg",
-        "/cards/card1.jpg",
-        "/cards/card1.jpg",
+        "/cards/card1s.jpg",
+        "/cards/card2.jpg",
+        "/cards/card3.jpg",
     ];
 
 

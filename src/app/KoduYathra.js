@@ -111,43 +111,57 @@ function Letter({ letter, index, scroll, startOffset, endOffset }) {
         </span>
     )
 }
-
-function AnimatedSinhalaText({ text }) {
+function AnimatedSinhalaText({ text, fontFamily = "'Sinha Nimsara', sans-serif", fontWeight = 'normal' }) {
     const textRef = useRef(null)
+    const [letters, setLetters] = useState([])
+
+    useEffect(() => {
+        const splitter = new GraphemeSplitter()
+        setLetters(splitter.splitGraphemes(text))
+    }, [text])
 
     useEffect(() => {
         if (!textRef.current) return
+        const spans = textRef.current.querySelectorAll("span")
 
-        // animate from bottom with fade
         gsap.fromTo(
-            textRef.current,
-            { opacity: 0, y: 50 },
+            spans,
+            { opacity: 0, y: 30, scale: 0.9 },
             {
                 opacity: 1,
                 y: 0,
-                duration: 1.2,
-                ease: 'power2.out',
-                delay: 0.5, // slight delay after logo
+                scale: 1,
+                duration: 0.8,
+                ease: "power2.out",
+                stagger: 0.05, // animate letters one by one
             }
         )
-    }, [])
+    }, [letters])
 
     return (
         <span
             ref={textRef}
             style={{
-                fontSize: '0.9rem',
-                fontWeight: 'normal',
+                fontSize: 'clamp(1rem, 4vw, 2rem)', // responsive: min 1rem, max 2rem, scales with 4vw
+                fontFamily: fontFamily,
+                fontWeight: fontWeight,
                 textAlign: 'center',
-                maxWidth: '80%',
+                maxWidth: '90%',
                 display: 'inline-block',
-                fontFamily: "'Sinha Nimsara', sans-serif", // Sinhala font
+                lineHeight: 1.2,
             }}
         >
-            {text}
+            {letters.map((letter, index) =>
+                letter === " " ? (
+                    <span key={index} style={{ display: "inline-block", width: "0.4em" }} />
+                ) : (
+                    <span key={index} style={{ display: "inline-block" }}>{letter}</span>
+                )
+            )}
         </span>
     )
 }
+
 
 // --- 3D Ship Scene ---
 function Scene() {
@@ -187,7 +201,7 @@ function Scene() {
 }
 
 
-function AnimatedLogo({ src, width }) {
+function AnimatedLogo({ src, width, topMargin = '5rem' }) {
     const logoRef = useRef()
 
     useEffect(() => {
@@ -204,7 +218,17 @@ function AnimatedLogo({ src, width }) {
         )
     }, [])
 
-    return <img ref={logoRef} src={src} width={width} alt="Logo" />
+    return (
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: topMargin, // space from top
+            }}
+        >
+            <img ref={logoRef} src={src} width={width} alt="Logo" />
+        </div>
+    )
 }
 
 // --- Main Component ---
@@ -223,8 +247,7 @@ export default function KoduYathra() {
                         <Environment preset="sunset" />
 
                         <Scroll html>
-                            {/* Page 1 - Sinhala */}
-                            {/* Page 1 - Sinhala */}
+
                             <section
                                 className="sinhala-font"
                                 style={{
@@ -232,29 +255,34 @@ export default function KoduYathra() {
                                     width: '100vw',
                                     color: 'white',
                                     display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    fontSize: '3.5rem',
-                                    fontWeight: 'bold',
                                     flexDirection: 'column',
-                                    gap: '1.5rem',
+                                    justifyContent: 'space-between', // logo top, text center, scroll bottom
+                                    alignItems: 'center',
+                                    fontWeight: 'bold',
+                                    paddingTop: '2rem',
+                                    paddingBottom: '2rem',
                                 }}
                             >
+                                {/* Logo at top */}
                                 <AnimatedLogo src="/logo1.png" width={300} />
 
-                                {/* Animated Sinhala text */}
-                                <AnimatedSinhalaText text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය" />
+                                {/* Center animated Sinhala text */}
 
-                                {/* Scroll GIF */}
+                                <AnimatedSinhalaText
+                                    text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය"
+                                    fontSize="1.2rem"
+                                    fontFamily="'Sinha Nimsara', sans-serif"
+                                    fontWeight="700"
+                                />
+
+                                {/* Scroll icon at bottom */}
                                 <img
-                                    src="/scroll.gif"
+                                    src="/scroll.svg"
                                     alt="Scroll down"
                                     style={{
-                                        position: 'block',
-                                        bottom: '2rem',
-                                        width: '50px',      // adjust size
+                                        width: '50px',
                                         height: '50px',
-                                        animation: 'bounce 1.5s infinite', // optional simple bounce
+                                        animation: 'bounce 1.5s infinite',
                                     }}
                                 />
                             </section>

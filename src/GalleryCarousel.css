@@ -26,13 +26,14 @@
 
 /* Cards area - 8/12 */
 .cards {
-  flex: 8; /* 8/12 of height */
+  flex: 8;
   display: flex;
   margin: 0;
   padding: 0;
   list-style: none;
-  overflow: hidden;
+  overflow: visible; /* allow 3D rotation to show */
   position: relative;
+  perspective: 1500px; /* perspective for 3D effect */
 }
 
 .cards li {
@@ -40,13 +41,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transform-style: preserve-3d; /* important for children */
+  transition: transform 0.5s ease-out;
 }
 
 .cards li img {
   width: auto;
-  height: 80%;
+  height: 70%;
   border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  transform: translateZ(0px);
+}
+
+
+@media (max-width: 768px) {
+
+  .cards li img {
+    height: 60%;
+  }
+  
+}
+
+/* Optional: very small screens */
+@media (max-width: 480px) {
+  .cards li img {
+    height: 40%;
+  }
 }
 
 /* Footer area - 4/12 */
