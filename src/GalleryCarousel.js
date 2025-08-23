@@ -236,10 +236,11 @@ export default function GalleryCarousel() {
                     </p> */}
                     <div className="footer-text-container">
                         <img src="/foclogo.png" className="footer-logo front-logo" />
-                        <div className="footer-text">
-                            <p>Students' Union Faculty of Computing</p>
-                            <p>Sabaragamuwa University of Sri Lanka</p>
-                        </div>
+                        <p className="footer-text">
+  {"Students' Union Faculty of Computing"} <br />
+  {"Sabaragamuwa University of Sri Lanka"}
+</p>
+
                         <img src="/susllog.png" className="footer-logo back-logo" />
                     </div>
                 </div>
