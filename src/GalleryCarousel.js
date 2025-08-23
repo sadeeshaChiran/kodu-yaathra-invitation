@@ -66,7 +66,7 @@ export default function GalleryCarousel() {
                         CREATIVITY, AND TALENTS COME ALIVE ON STAGE
                     </p>
                     <p className="footer-line-2">
-                        Students' Union - Faculty of Computing, Sabaragamuwa University of Sri Lanka
+                        {"Students' Union - Faculty of Computing, Sabaragamuwa University of Sri Lanka"}
                     </p>
                 </div>
             </div>
