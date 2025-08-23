@@ -61,7 +61,7 @@ function AnimatedSinhalaText({
         <div
             ref={textRef}
             style={{
-                fontSize: "clamp(1.0rem, 3vw, 1.0rem)",
+                fontSize: "clamp(0.8rem, 3vw, 1.0rem)",
                 fontFamily,
                 fontWeight,
                 textAlign: "center",
@@ -161,7 +161,8 @@ export default function GalleryCarousel() {
                     <AnimatedLogo src="/logo1.png" width={150} topMargin="3rem" />
                     <AnimatedText text="2025" fontSize="0.8rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
                     <AnimatedSinhalaText
-                        text={`තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ\nසොදුරු සංචාරය`}
+                        text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය`}
+                         
                         fontFamily="'0KDROSE', sans-serif"
                         fontWeight="700"
                         topMargin="1rem"
