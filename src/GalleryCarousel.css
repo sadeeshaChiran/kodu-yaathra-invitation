@@ -87,7 +87,7 @@
 .footer-line-1 {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 3.5rem;
   line-height: 1.5;
 }
 
@@ -109,6 +109,12 @@
   align-items: center;
   gap: 0.3rem; 
   margin-top: 20px;
+  margin-bottom: 30px;
+  border: #5d5d5d 2px solid;
+  padding: 5px 0px 5px 0px;
+  border-radius: 20px;
+  background-color: #5e5e5e86;
+  box-shadow: 2px 4px 6px rgba(59, 59, 59, 0.644);
 }
 
 .footer-text {
@@ -116,12 +122,15 @@
   font-size: 0.6rem;
   text-align: center;
   font-weight: 800;
+  padding: 0 10px 0px 10px;
 }
 
 .footer-logo {
   width: 30px; /* very small logo */
   height: 30px;
   object-fit: contain;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .front-logo {

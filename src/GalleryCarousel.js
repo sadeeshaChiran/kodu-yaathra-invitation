@@ -62,7 +62,7 @@ function AnimatedSinhalaText({
         <div
             ref={textRef}
             style={{
-                fontSize: "clamp(0.8rem, 3vw, 1.0rem)",
+                fontSize: "clamp(0.9rem, 3vw, 1.0rem)",
                 fontFamily,
                 fontWeight,
                 textAlign: "center",
@@ -112,64 +112,64 @@ export default function GalleryCarousel() {
     useEffect(() => {
         const sections = gsap.utils.toArray(".cards li");
         const total = sections.length;
-      
+
         // Horizontal scroll trigger
         gsap.to(sections, {
-          xPercent: -100 * (total - 1),
-          ease: "none",
-          scrollTrigger: {
-            trigger: galleryRef.current,
-            pin: true,
-            scrub: 1,
-            end: () => "+=" + window.innerWidth * (total - 1),
-            onUpdate: (self) => {
-              const index = Math.round(self.progress * (total - 1));
-              setActiveIndex(index);
+            xPercent: -100 * (total - 1),
+            ease: "none",
+            scrollTrigger: {
+                trigger: galleryRef.current,
+                pin: true,
+                scrub: 1,
+                end: () => "+=" + window.innerWidth * (total - 1),
+                onUpdate: (self) => {
+                    const index = Math.round(self.progress * (total - 1));
+                    setActiveIndex(index);
+                }
             }
-          }
         });
-      
+
         // Footer fade-in
         gsap.fromTo(
-          footerRef.current,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            scrollTrigger: {
-              trigger: galleryRef.current,
-              start: () => `top top+=${window.innerWidth * (total - 1)}`,
-              end: () => `+=200`,
-              scrub: true,
+            footerRef.current,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                scrollTrigger: {
+                    trigger: galleryRef.current,
+                    start: () => `top top+=${window.innerWidth * (total - 1)}`,
+                    end: () => `+=200`,
+                    scrub: true,
+                }
             }
-          }
         );
-      
+
         // --- AUTO CARD SLIDE ---
         let current = 0;
         const delay = 3; // seconds between slides
-      
+
         const autoSlide = () => {
-          current = (current + 1) % total;
-          setActiveIndex(current);
-      
-          gsap.to(sections, {
-            xPercent: -100 * current,
-            duration: 1,
-            ease: "power2.inOut"
-          });
-      
-          // schedule next slide
-          setTimeout(autoSlide, delay * 1000);
+            current = (current + 1) % total;
+            setActiveIndex(current);
+
+            gsap.to(sections, {
+                xPercent: -100 * current,
+                duration: 1,
+                ease: "power2.inOut"
+            });
+
+            // schedule next slide
+            setTimeout(autoSlide, delay * 1000);
         };
-      
+
         // start after 2s
         const timer = setTimeout(autoSlide, 2000);
-      
+
         return () => clearTimeout(timer);
-      }, []);
-      
-    
+    }, []);
+
+
 
     return (
         <div className="gallery" ref={galleryRef}>
@@ -187,11 +187,10 @@ export default function GalleryCarousel() {
             {/* Cards + Footer Container */}
             <div className="gallery-content">
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <AnimatedLogo src="/logo1.png" width={150} topMargin="3rem" />
-                    <AnimatedText text="2025" fontSize="0.8rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
+                    <AnimatedLogo src="/logo1.png" width={180} topMargin="3rem" />
+                    <AnimatedText text="2025" fontSize="0.9rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
                     <AnimatedSinhalaText
                         text={`තාරුකා මතින් ආලෝකය සොයා යන කෝඩුකාරයන්ගේ\nසොඳුරු සංචාරය`}
-                         
                         fontFamily="'0KDROSE', sans-serif"
                         fontWeight="700"
                         topMargin="1rem"
@@ -237,13 +236,13 @@ export default function GalleryCarousel() {
                     </p> */}
                     <div className="footer-text-container">
                         <img src="/foclogo.png" className="footer-logo front-logo" />
-                        <p className="footer-text">
-                            {"Students' Union Faculty of Computing Sabaragamuwa University of Sri Lanka"}
-                        </p>
+                        <div className="footer-text">
+                            <p>Students' Union Faculty of Computing</p>
+                            <p>Sabaragamuwa University of Sri Lanka</p>
+                        </div>
                         <img src="/susllog.png" className="footer-logo back-logo" />
                     </div>
                 </div>
-
             </div>
         </div>
 
