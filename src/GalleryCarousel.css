@@ -23,6 +23,8 @@
   height: 100%;
   position: relative;
   z-index: 1; /* above canvas */
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 /* Cards area - 8/12 */
@@ -87,7 +89,7 @@
 .footer-line-1 {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4.5rem;
   line-height: 1.5;
 }
 
@@ -109,7 +111,7 @@
   align-items: center;
   gap: 0.3rem; 
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   border: #5d5d5d 2px solid;
   padding: 5px 0px 5px 0px;
   border-radius: 20px;
