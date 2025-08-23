@@ -7,11 +7,10 @@ import * as THREE from 'three'
 import GraphemeSplitter from 'grapheme-splitter'
 import './Invitation.css'
 import gsap from 'gsap'
-// in src/app/layout.js or _app.js
-import "@fontsource/ubuntu"; // Default weight
-import "@fontsource/ubuntu/400.css"; // Regular
-import "@fontsource/ubuntu/700.css"; // Bold
-
+// Fonts
+import "@fontsource/ubuntu";
+import "@fontsource/ubuntu/400.css";
+import "@fontsource/ubuntu/700.css";
 
 // --- Background easing ---
 function bgEasing(t) {
@@ -19,8 +18,7 @@ function bgEasing(t) {
 }
 
 // --- Sinhala Letter Animation ---
-// --- Sinhala / English Letter Animation with GSAP ---
-function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'Sinha Nimsara', sans-serif" }) {
+function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'Sinha Nimsara', sans-serif", marginTop = '0rem' }) {
     const scroll = useScroll()
     const [letters, setLetters] = useState([])
 
@@ -29,15 +27,8 @@ function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'
         setLetters(splitter.splitGraphemes(text))
     }, [text])
 
-
     return (
-        <span
-            style={{
-                display: 'inline-block',
-                fontFamily,
-                letterSpacing: '0em',   // 👈 add this
-            }}
-        >
+        <span style={{ display: 'inline-block', fontFamily, letterSpacing: '0em', marginTop: marginTop  }}>
             {letters.map((letter, index) => (
                 <Letter
                     key={index}
@@ -50,13 +41,10 @@ function ScrollSinhala({ text, startOffset = 0, endOffset = 0.9, fontFamily = "'
             ))}
         </span>
     )
-
-
 }
 
 function Letter({ letter, index, scroll, startOffset, endOffset }) {
     const spanRef = useRef(null)
-    const [visible, setVisible] = useState(false)
     const visibleRef = useRef(false)
 
     useEffect(() => {
@@ -71,47 +59,19 @@ function Letter({ letter, index, scroll, startOffset, endOffset }) {
 
         if (shouldBeVisible !== visibleRef.current) {
             visibleRef.current = shouldBeVisible
-            setVisible(shouldBeVisible)
-
             if (shouldBeVisible) {
-                gsap.to(spanRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    duration: 0.8,
-                    ease: 'power2.out',
-                    delay: index * 0.05,
-                })
+                gsap.to(spanRef.current, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power2.out', delay: index * 0.05 })
             } else {
-                gsap.to(spanRef.current, {
-                    opacity: 0,
-                    y: 30,
-                    scale: 0.8,
-                    duration: 0.4,
-                    ease: 'power2.in',
-                })
+                gsap.to(spanRef.current, { opacity: 0, y: 30, scale: 0.8, duration: 0.4, ease: 'power2.in' })
             }
         }
     })
 
-    // 👉 handle spaces differently
-    if (letter === " ") {
-        return <span style={{ display: "inline-block", width: "0.4em" }} />  // adjust width for word gap
-    }
-
-    return (
-        <span
-            ref={spanRef}
-            style={{
-                display: 'inline-block',
-
-            }}
-        >
-            {letter}
-        </span>
-    )
+    if (letter === " ") return <span style={{ display: "inline-block", width: "0.4em" }} />
+    return <span ref={spanRef} style={{ display: 'inline-block' }}>{letter}</span>
 }
-function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontWeight = 'normal' }) {
+
+function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontWeight = 'normal', topMargin = '0rem' }) {
     const textRef = useRef(null)
     const [letters, setLetters] = useState([])
 
@@ -123,47 +83,17 @@ function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontW
     useEffect(() => {
         if (!textRef.current) return
         const spans = textRef.current.querySelectorAll("span")
-
-        gsap.fromTo(
-            spans,
-            { opacity: 0, y: 30, scale: 0.9 },
-            {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.8,
-                ease: "power2.out",
-                stagger: 0.05, // animate letters one by one
-            }
-        )
+        gsap.fromTo(spans, { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power2.out", stagger: 0.05 })
     }, [letters])
 
     return (
-        <span
-            ref={textRef}
-            style={{
-                fontSize: 'clamp(1rem, 4vw, 2rem)', // responsive: min 1rem, max 2rem, scales with 4vw
-                fontFamily: fontFamily,
-                fontWeight: fontWeight,
-                textAlign: 'center',
-                maxWidth: '90%',
-                display: 'inline-block',
-                lineHeight: 1.2,
-            }}
-        >
-            {letters.map((letter, index) =>
-                letter === " " ? (
-                    <span key={index} style={{ display: "inline-block", width: "0.4em" }} />
-                ) : (
-                    <span key={index} style={{ display: "inline-block" }}>{letter}</span>
-                )
-            )}
+        <span ref={textRef} style={{ fontSize: 'clamp(0.8rem, 3vw, 1.5rem)', fontFamily, fontWeight, textAlign: 'center', maxWidth: '100%', display: 'inline-block', lineHeight: 1.2, marginTop: topMargin }}>
+            {letters.map((letter, index) => letter === " " ? <span key={index} style={{ display: "inline-block", width: "0.4em" }} /> : <span key={index} style={{ display: "inline-block" }}>{letter}</span>)}
         </span>
     )
 }
 
-
-// --- 3D Ship Scene ---
+// --- Ship Scene ---
 function Scene() {
     const shipRef = useRef()
     const scroll = useScroll()
@@ -174,12 +104,9 @@ function Scene() {
     useFrame(() => {
         if (!shipRef.current) return
         const t = scroll.offset
-
-        // --- Make ship visible only after scrolling starts ---
-        const visibleProgress = Math.min(Math.max(t * 5, 0), 1) // 0->1 quickly
+        const visibleProgress = Math.min(Math.max(t * 5, 0.3), 1.5)
         shipRef.current.scale.set(0.5 * visibleProgress, 0.5 * visibleProgress, 0.5 * visibleProgress)
 
-        // --- Position animation ---
         let x = 10 - 20 * Math.min(t / 0.3, 1)
         if (t > 0.3) x = -10 + 20 * ((t - 0.3) / 0.7)
         const baseY = -2
@@ -187,12 +114,10 @@ function Scene() {
         const z = -5 + Math.sin(t * Math.PI) * 0.5
         shipRef.current.position.set(x, y, z)
 
-        // --- Rotation ---
         const targetRotation = Math.PI * Math.min(Math.max((t - 0.05) / (0.45 - 0.05), 0), 1)
         prevRotation.current = THREE.MathUtils.lerp(prevRotation.current, targetRotation, 0.1)
         shipRef.current.rotation.y = prevRotation.current
 
-        // --- Background color ---
         const mixedColor = new THREE.Color('#000000').lerp(new THREE.Color('#ffffff'), bgEasing(t))
         gl.setClearColor(mixedColor)
     })
@@ -200,62 +125,45 @@ function Scene() {
     return <primitive ref={shipRef} object={scene} position={[10, -2, 0]} />
 }
 
+// --- Plane Scene ---
+function PlaneScene({ startOffset = 0.25, endOffset = 0.75 }) {
+    const planeRef = useRef()
+    const scroll = useScroll()
+    const { scene } = useGLTF('/models/plane.glb')
 
-function AnimatedLogo({ src, width, topMargin = '0rem' }) {
-    const logoRef = useRef()
+    useFrame(() => {
+        if (!planeRef.current) return
+        const t = scroll.offset
+        const progress = Math.min(Math.max((t - startOffset) / (endOffset - startOffset), 0), 1)
 
-    useEffect(() => {
-        gsap.fromTo(
-            logoRef.current,
-            { scale: 0, y: 0, opacity: 0 },
-            {
-                scale: 1,
-                y: 0,
-                opacity: 1,
-                duration: 1,
-                ease: 'back.out(1.7)',
-            }
-        )
-    }, [])
+        planeRef.current.scale.set(progress, progress, progress)
+        const x = -5 + 10 * progress
+        const y = 2 + Math.sin(progress * Math.PI * 2) * 1
+        const z = -3 + Math.cos(progress * Math.PI) * 1
+        planeRef.current.position.set(x, y, z)
+        planeRef.current.rotation.y = Math.PI * progress
+    })
 
-    return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: topMargin,
-            }}
-        >
-            <img ref={logoRef} src={src} width={width} alt="Logo" />
-        </div>
-    )
+    return <primitive ref={planeRef} object={scene} position={[-5, 2, -3]} />
 }
 
+// --- Logo ---
+function AnimatedLogo({ src, width, topMargin = '0rem' }) {
+    const logoRef = useRef()
+    useEffect(() => {
+        gsap.fromTo(logoRef.current, { scale: 0, y: 0, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 1, ease: 'back.out(1.7)' })
+    }, [])
+    return <div style={{ display: 'flex', justifyContent: 'center', marginTop: topMargin }}><img ref={logoRef} src={src} width={width} alt="Logo" /></div>
+}
+
+// --- Text ---
 function AnimatedText({ text, fontSize = '1rem', fontFamily = "'Ubuntu', sans-serif", fontWeight = '700', topMargin = '0rem' }) {
     const textRef = useRef(null);
-
     useEffect(() => {
         if (!textRef.current) return;
-        gsap.fromTo(
-            textRef.current,
-            { opacity: 0, y: 20, scale: 0.8 },
-            { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' }
-        );
+        gsap.fromTo(textRef.current, { opacity: 0, y: 20, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' });
     }, []);
-
-    return (
-        <div
-            ref={textRef}
-            style={{
-                fontSize,
-                fontFamily,
-                fontWeight,
-                marginTop: topMargin, // keep it 0
-            }}
-        >
-            {text}
-        </div>
-    );
+    return <div ref={textRef} style={{ fontSize, fontFamily, fontWeight, marginTop: topMargin }}>{text}</div>
 }
 
 // --- Main Component ---
@@ -265,94 +173,59 @@ export default function KoduYathra() {
             <Canvas shadows camera={{ position: [0, 2, 12], fov: 50 }}>
                 <ambientLight intensity={0.7} />
                 <directionalLight position={[10, 10, 10]} intensity={1} />
-                {/* <Suspense fallback={null}>
+                <Suspense fallback={null}>
                     <SpinningModel scale={2.5} />
-                </Suspense> */}
+                </Suspense>
                 <Suspense fallback={null}>
                     <ScrollControls pages={2} damping={0.1}>
-                        <Scene />
+                        <Scene /> {/* Ship */}
+                        {/* <PlaneScene />  */}
                         <Environment preset="sunset" />
 
                         <Scroll html>
-
-                            <section
-                                className="sinhala-font"
-                                style={{
-                                    height: '100vh',
-                                    width: '100vw',
-                                    color: 'white',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    fontWeight: 'bold',
-                                    paddingTop: '2rem',
-                                    paddingBottom: '0rem',
-                                }}
-                            >
-                                {/* Logo */}
+                            {/* Page 1 */}
+                            <section className="sinhala-font" style={{ height: '100vh', width: '100vw', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', fontWeight: 'bold', paddingTop: '2rem' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    {/* Logo */}
-                                    <AnimatedLogo src="/logo1.png" width={300} topMargin="0rem" />
+                                    <AnimatedLogo src="/logo1.png" width={300} topMargin="3rem" />
+                                    <AnimatedText text="2025" fontSize="1.4rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
+                                    <AnimatedSinhalaText text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය" fontSize="1.0rem" fontFamily="'0KDROSE', sans-serif" fontWeight="700" topMargin="6rem" />
+                                </div>
+                                <div className="mouse"></div>
+                            </section>
 
-                                    {/* 2024 directly under logo */}
+                            {/* Page 2 */}
+                            <section style={{ height: '100vh', width: '100vw', color: 'black', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', fontSize: '3.5rem', fontWeight: 'bold', fontFamily: "'Ubuntu', sans-serif" }}>
+                                <ScrollSinhala text="Get Ready" startOffset={0.5} endOffset={1.0} fontFamily="'Ubuntu', sans-serif" marginTop='6rem' />
+                                <div style={{ marginBottom: '0rem', textAlign: 'center' }}>
+
                                     <AnimatedText
-                                        text="2024"
-                                        fontSize="2rem"
                                         fontFamily="'Ubuntu', sans-serif"
-                                        fontWeight="700"
-                                        topMargin="1rem" // no gap
+                                        text="DATE: 26th AUGUST 2025"
+                                        fontSize="1.4rem"
+                                        topMargin="2rem"
+                                    />
+                                    <AnimatedText
+                                    fontFamily="'Ubuntu', sans-serif"
+                                        text="Time: 05:00 PM"
+                                        fontSize="1.4rem"
+                                        topMargin="1rem"
+                                    />
+                                    <AnimatedText
+                                    fontFamily="'Ubuntu', sans-serif"
+                                        text="VENUE: PROF.J.W.DAYANANDA SOMASUNDARA AUDITORIUN"
+                                        fontSize="1.2rem"
+                                        topMargin="1rem"
                                     />
                                 </div>
 
-                                {/* Sinhala text */}
-                                <AnimatedSinhalaText
-                                    text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය"
-                                    fontSize="1.2rem"
-                                    fontFamily="'0KDROSE', sans-serif"
-                                    fontWeight="700"
-                                />
-
-                                {/* Scroll icon */}
-                                <img
-                                    src="/scroll.svg"
-                                    alt="Scroll down"
-                                    style={{
-                                        width: '50px',
-                                        height: '50px',
-                                        animation: 'bounce 1.5s infinite',
-                                    }}
-                                />
+                                <div className="footer-text-container" style={{ marginBottom: '20px', textAlign: 'center', position: 'relative', marginLeft: '5px', marginRight: '5px' }}>
+                                    <img src="/foclogo.png" className="footer-logo front-logo" />
+                                    <p className="footer-text">
+                                        {"Students' Union Faculty of Computing Sabaragamuwa University of Sri Lanka"}
+                                    </p>
+                                    <img src="/susllog.png" className="footer-logo back-logo" />
+                                </div>
                             </section>
-
-
-
-
-                            {/* Page 2 - English */}
-                            <section
-                                style={{
-                                    height: '100vh',
-                                    width: '100vw',
-                                    color: 'black',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    fontSize: '3.5rem',
-                                    fontWeight: 'bold',
-                                    fontFamily: "'Ubuntu', sans-serif",   // 👈 change here
-                                }}
-                            >
-                                <ScrollSinhala
-                                    text="Get Ready"
-                                    startOffset={0.5}
-                                    endOffset={1.0}
-                                    fontFamily="'Ubuntu', sans-serif"    // 👈 pass to component too
-                                />
-                            </section>
-
-
-
-
                         </Scroll>
                     </ScrollControls>
                 </Suspense>
@@ -363,20 +236,7 @@ export default function KoduYathra() {
 
 function SpinningModel(props) {
     const { scene } = useGLTF('/models/sky_pano_-_milkyway.glb')
-
-    // Make all meshes transparent
-    scene.traverse((child) => {
-        if (child.isMesh) {
-            child.material.transparent = true
-            child.material.opacity = 0.2  // adjust for desired transparency
-            child.material.depthWrite = false // optional: prevent z-fighting
-        }
-    })
-
-    useFrame(() => {
-        scene.rotation.y += 0.002
-        scene.rotation.x = 0.25
-    })
-
+    scene.traverse((child) => { if (child.isMesh) { child.material.transparent = true; child.material.opacity = 0.2; child.material.depthWrite = false } })
+    useFrame(() => { scene.rotation.y += 0.002; scene.rotation.x = 0.25 })
     return <primitive object={scene} {...props} />
 }

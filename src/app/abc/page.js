@@ -16,8 +16,7 @@ export default function Home() {
     <div className="root">
        {/* <ScrollHint /> */}
       <KoduYathra />
-{/* <TextEffect /> */}
-      <GalleryCarousel />
+
     </div>
   )
 }
