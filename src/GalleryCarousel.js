@@ -26,7 +26,7 @@ function AnimatedText({ text, fontSize = '1rem', fontFamily = "'Ubuntu', sans-se
         if (!textRef.current) return;
         gsap.fromTo(textRef.current, { opacity: 0, y: 20, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power2.out' });
     }, []);
-    return <div ref={textRef} style={{ fontSize, fontFamily, fontWeight, marginTop: topMargin, color:'white' }}>{text}</div>
+    return <div ref={textRef} style={{ fontSize, fontFamily, fontWeight, marginTop: topMargin, color: 'white' }}>{text}</div>
 }
 
 
@@ -56,6 +56,8 @@ function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontW
 
 export default function GalleryCarousel() {
     const galleryRef = useRef(null);
+    const footerRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const galleryImages = [
         "/cards/card1s.jpg",
@@ -63,21 +65,41 @@ export default function GalleryCarousel() {
         "/cards/card3.jpg",
     ];
 
-
     useEffect(() => {
         const sections = gsap.utils.toArray(".cards li");
 
+        // Horizontal scroll animation
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
-
             ease: "none",
             scrollTrigger: {
                 trigger: galleryRef.current,
                 pin: true,
                 scrub: 1,
-                end: () => "+=" + window.innerWidth * (sections.length - 1)
+                end: () => "+=" + window.innerWidth * (sections.length - 1),
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    const index = Math.round(progress * (sections.length - 1));
+                    setActiveIndex(index);
+                }
             }
         });
+
+        // Footer fade-in at last card
+        gsap.fromTo(
+            footerRef.current,
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1,
+                y: 0,
+                scrollTrigger: {
+                    trigger: galleryRef.current,
+                    start: () => `top top+=${window.innerWidth * (sections.length - 1)}`,
+                    end: () => `+=200`,
+                    scrub: true,
+                }
+            }
+        );
     }, []);
 
     return (
@@ -101,6 +123,19 @@ export default function GalleryCarousel() {
                     <AnimatedSinhalaText text="තාරුකා මතින් ආලෝකය සොයායන කෝඩූකාරයන්ගේ සොදුරු සංචාරය" fontSize="0.6rem" fontFamily="'0KDROSE', sans-serif" fontWeight="700" topMargin="1rem" />
                 </div>
                 {/* Cards area - 8/12 */}
+
+
+                {/* Side panel */}
+                <div className="side-panel">
+                    {galleryImages.map((_, i) => (
+                        <div
+                            key={i}
+                            className={`side-dot ${i === activeIndex ? 'active' : ''}`}
+                        />
+                    ))}
+                </div>
+
+                {/* Cards */}
                 <ul className="cards">
                     {galleryImages.map((src, i) => (
                         <li key={i} className="card">
