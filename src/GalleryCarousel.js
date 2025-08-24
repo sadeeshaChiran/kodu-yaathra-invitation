@@ -103,7 +103,7 @@ export default function GalleryCarousel() {
     const galleryImages = [
         "/cards/card1s.jpg",
         "/cards/card2.jpg",
-        "/cards/card3.jpg",
+        "/cards/card3s.jpg",
     ];
 
 
