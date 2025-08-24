@@ -72,27 +72,67 @@ function Letter({ letter, index, scroll, startOffset, endOffset }) {
     return <span ref={spanRef} style={{ display: 'inline-block' }}>{letter}</span>
 }
 
-function AnimatedSinhalaText({ text, fontFamily = "'0KDROSE', sans-serif", fontWeight = 'normal', topMargin = '0rem' }) {
+function AnimatedSinhalaText({
+    text,
+    fontFamily = "'TharuDigitalNikini', sans-serif",
+    fontWeight = "normal",
+    topMargin = "0rem"
+}) {
     const textRef = useRef(null)
-    const [letters, setLetters] = useState([])
+    const [lines, setLines] = useState([])
 
     useEffect(() => {
         const splitter = new GraphemeSplitter()
-        setLetters(splitter.splitGraphemes(text))
+        // split by newline first, then by graphemes
+        const processedLines = text.split("\n").map(line => splitter.splitGraphemes(line))
+        setLines(processedLines)
     }, [text])
 
     useEffect(() => {
         if (!textRef.current) return
-        const spans = textRef.current.querySelectorAll("span")
-        gsap.fromTo(spans, { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power2.out", stagger: 0.05 })
-    }, [letters])
+        const spans = textRef.current.querySelectorAll("span.letter")
+        gsap.fromTo(
+            spans,
+            { opacity: 0, y: 30, scale: 0.9 },
+            { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: "power2.out", stagger: 0.05 }
+        )
+    }, [lines])
 
     return (
-        <span ref={textRef} style={{ fontSize: 'clamp(0.8rem, 3vw, 1.5rem)', fontFamily, fontWeight, textAlign: 'center', maxWidth: '100%', display: 'inline-block', lineHeight: 1.2, marginTop: topMargin }}>
-            {letters.map((letter, index) => letter === " " ? <span key={index} style={{ display: "inline-block", width: "0.4em" }} /> : <span key={index} style={{ display: "inline-block" }}>{letter}</span>)}
-        </span>
+        <div
+            ref={textRef}
+            style={{
+                fontSize: "clamp(0.8rem, 3vw, 1.0rem)",
+                fontFamily,
+                fontWeight,
+                textAlign: "center",
+                maxWidth: "100%",
+                display: "inline-block",
+                lineHeight: 1.2,
+                marginTop: topMargin,
+                color: "white"
+            }}
+        >
+            {lines.map((letters, lineIndex) => (
+                <div key={lineIndex}>
+                    {letters.map((letter, index) =>
+                        letter === " " ? (
+                            <span
+                                key={index}
+                                style={{ display: "inline-block", width: "0.4em" }}
+                            />
+                        ) : (
+                            <span key={index} className="letter" style={{ display: "inline-block" }}>
+                                {letter}
+                            </span>
+                        )
+                    )}
+                </div>
+            ))}
+        </div>
     )
 }
+
 
 // --- Ship Scene ---
 function Scene() {
