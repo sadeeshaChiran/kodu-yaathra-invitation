@@ -295,7 +295,7 @@ body {
 	flex: 1;
 	background: #fff;
 	padding: 1rem;
-	transform: translateX(50px);
+	transform: translateX(0px);
   }
   .card2:hover .slide.slide2 {
 	transform: translateX(0);
@@ -326,7 +326,7 @@ body {
 	  transform: translateY(0);
 	}
 	.card2 .slide.slide2 {
-	  transform: translateY(20px);
+	  transform: translateY(0px);
 	}
 	.card2:hover .slide.slide2 {
 	  transform: translateY(0);
