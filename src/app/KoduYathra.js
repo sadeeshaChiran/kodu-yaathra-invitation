@@ -191,38 +191,40 @@ function PlaneScene({ startOffset = 0.25, endOffset = 0.75 }) {
 
 function EventDetails() {
     const details = [
-        {
-            icon: <FaCalendarAlt className="event-fa" />,
-            label: "DATE",
-            value: "26th AUGUST 2025",
-        },
-        {
-            icon: <FaClock className="event-fa" />,
-            label: "TIME",
-            value: "05:00 PM",
-        },
-        {
-            icon: <FaMapMarkerAlt className="event-fa" />,
-            label: "VENUE",
-            value: "PROF.J.W. DAYANANDA SOMASUNDARA AUDITORIUM",
-        },
+        { icon: <FaCalendarAlt />, value: "26th AUGUST 2025" },
+        { icon: <FaClock />, value: "05:00 PM" },
+        { icon: <FaMapMarkerAlt />, value: "PROF. J.W. DAYANANDA SOMASUNDARA AUDITORIUM" },
     ];
+
+    const cardsRef = useRef([]);
+
+    useEffect(() => {
+        if (!cardsRef.current) return;
+
+        gsap.from(cardsRef.current, {
+            x: i => i % 2 === 0 ? -200 : 200, // left/right entry
+            opacity: 0,
+            duration: 10,
+            ease: "power2.out",
+            stagger: 0.2, // animate one after another
+        });
+    }, []);
 
     return (
         <div className="container-card">
             {details.map((item, index) => (
-                <div key={index} className="card2">
-                    {/* Icon side */}
+                <div
+                    key={index}
+                    className="card2"
+                    ref={(el) => (cardsRef.current[index] = el)}
+                >
                     <div className="slide slide1">
                         <div className="content">
                             <div className="icon">{item.icon}</div>
                         </div>
                     </div>
-
-                    {/* Text side */}
                     <div className="slide slide2">
                         <div className="content">
-                            {/* <h3>{item.label}</h3> */}
                             <p>{item.value}</p>
                         </div>
                     </div>
@@ -231,6 +233,8 @@ function EventDetails() {
         </div>
     );
 }
+
+
 
 
 
@@ -277,11 +281,11 @@ export default function KoduYathra() {
                                     <AnimatedLogo src="/logo1.png" width={300} topMargin="3rem" />
                                     <AnimatedText text="2025" fontSize="1.4rem" fontFamily="'Ubuntu', sans-serif" fontWeight="700" topMargin="1rem" />
                                     <AnimatedSinhalaText
-                        text={`;dreldu;ska wdf,dalh fidhd hk fldavqldrhkaf.a\n fid÷re ixpdrh'''`}
-                        fontFamily="'TharuDigitalNikini', sans-serif"
-                        fontWeight="700"
-                        topMargin="1.7rem"
-                    />                                </div>
+                                        text={`;dreldu;ska wdf,dalh fidhd hk fldavqldrhkaf.a\n fid÷re ixpdrh'''`}
+                                        fontFamily="'TharuDigitalNikini', sans-serif"
+                                        fontWeight="700"
+                                        topMargin="1.7rem"
+                                    />                                </div>
                                 <div className="mouse"></div>
                             </section>
 
