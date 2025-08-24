@@ -61,17 +61,17 @@
 @media (max-width: 768px) {
 
   .cards li img {
-    height: 60%;
+    height: 55%;
   }
   
 }
 
 /* Optional: very small screens */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .cards li img {
     height: 40%;
   }
-}
+} */
 
 /* Footer area - 4/12 */
 .gallery-footer {
