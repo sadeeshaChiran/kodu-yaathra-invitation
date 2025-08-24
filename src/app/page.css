@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html,
+  body,
+  .root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: #000000;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  canvas {
+    opacity: 0;
+    touch-action: none;
+    animation: fade-in 3s ease 0.5s forwards;
+  }
+  /* body, .card-container {
+    cursor: none; 
+  } */
+  
+  @font-face {
+    font-family: 'Sinha Nimsara';
+    src: url('../../public/fonts/SinhaNimsara-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  
+  .front-text {
+    font-family: 'Ubuntu', sans-serif;
+  }
+  
+
+
+  @font-face {
+    font-family: 'Sinha Nimsara';
+    src: url('../../public/fonts/SinhaNimsara-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: '0KDROSE';
+    src: url('../../public/fonts/0KDROSE\ Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  
+  @font-face {
+    font-family: 'TharuDigitalNikini';
+    src: url('../../public/fonts/TharuDigitalNikini.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
