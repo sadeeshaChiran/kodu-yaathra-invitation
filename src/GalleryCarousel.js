@@ -226,9 +226,9 @@ export default function GalleryCarousel() {
                     style={{ fontFamily: "'Ubuntu', sans-serif" }}
                 >
                     <p className="footer-line-1" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
-                        BE A PART OF THIS VIBRANT EVENING AND <br/> WITNESS THE BRILLIANCE,
-                        CREATIVITY, <br/> AND TALENTS COME ALIVE ON STAGE.
-{/* <br></br>
+                        BE A PART OF THIS VIBRANT EVENING AND <br /> WITNESS THE BRILLIANCE,
+                        CREATIVITY, <br /> AND TALENTS COME ALIVE ON STAGE.
+                        {/* <br></br>
 <br></br>
 
                         Be a part of this vibrant evening and witness the brilliance, creativity
@@ -243,9 +243,9 @@ export default function GalleryCarousel() {
                     <div className="footer-text-container">
                         <img src="/foclogo.png" className="footer-logo front-logo" />
                         <p className="footer-text">
-  {"Students' Union Faculty of Computing"} <br />
-  {"Sabaragamuwa University of Sri Lanka"}
-</p>
+                            {"Students' Union Faculty of Computing"} <br />
+                            {"Sabaragamuwa University of Sri Lanka"}
+                        </p>
 
                         <img src="/susllog.png" className="footer-logo back-logo" />
                     </div>
