@@ -48,14 +48,14 @@
   transition: transform 0.5s ease-out;
 }
 
-.cards li img {
+/* .cards li img {
   width: auto;
   height: 70%;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 15px 35px rgba(0,0,0,0.5);
   transform: translateZ(0px);
-}
+} */
 
 
 /* @media (max-width: 768px) {
